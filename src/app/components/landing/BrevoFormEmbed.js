@@ -11,7 +11,8 @@ const BrevoFormEmbed = ({ className, darkMode = false }) => {
   const iframeRef = useRef(null);
   
   // URL del formulario de Brevo - Reemplazar con la URL real para CIPLAD
-  const brevoFormUrl = "https://sibforms.com/serve/MUIFAFBRspRbB_21RjyCHxWxwZfrJgeIlwxkDN96f3drQ2myNgpz8PWpSHAmuAVtQuYY_b5hgx1ledQotCTlxVijO_P0k0-ZdBnjfBxBxNIuzspQe7Q8KRJ43kChFfeX0kJOP_NvttN7AZq90m2jKYB2w0t9WsQKBWJgKtlkZuE_E62CH036CL59Vs5Mzq4D0eONbmR_btXjqar3";
+//   const brevoFormUrl = "https://sibforms.com/serve/MUIFAFBRspRbB_21RjyCHxWxwZfrJgeIlwxkDN96f3drQ2myNgpz8PWpSHAmuAVtQuYY_b5hgx1ledQotCTlxVijO_P0k0-ZdBnjfBxBxNIuzspQe7Q8KRJ43kChFfeX0kJOP_NvttN7AZq90m2jKYB2w0t9WsQKBWJgKtlkZuE_E62CH036CL59Vs5Mzq4D0eONbmR_btXjqar3";
+  const brevoFormUrl = "https://sibforms.com/serve/MUIFAGmhzOcjaYlisgDq9J_bh6J11pKg5odXmSsKjZ-23oCwjVl0JLQ8FMVrUJne3_Sdb_-D03WlTaLaxFaZVXJW4_IippA76iQ3LD2donOE5-YoTm6mNUmsa9XJDqxDCyulOQZO24Pm_ZPXQMfSjBT6USu2oZMHDzSWONSqOXYWs_lxxrA0uWUa7Z8aR3MeS0lFVdfmeMlpj5f2";
   
   // Manejar mensajes del iframe y ajustar tamaño
   useEffect(() => {

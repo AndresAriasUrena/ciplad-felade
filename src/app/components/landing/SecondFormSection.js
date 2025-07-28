@@ -51,7 +51,8 @@ const SecondFormSection = () => {
               />
               <BenefitItem 
                 icon={<FaGraduationCap />}
-                text="Acceso a metodologías internacionales de prevención de lavado de activos"
+                text="Acceso a metodologías internacionales de prevención de lavado de activos, financiamiento al terrorismo y la proliferación de armas de destrucción masiva 
+"
               />
               <BenefitItem 
                 icon={<FaLock />}

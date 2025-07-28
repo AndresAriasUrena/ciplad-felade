@@ -4,7 +4,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaBriefcase, FaUniversity, FaAward } from 'react-icons/fa';
+import { FaBriefcase, FaUniversity, FaAward, FaCheck } from 'react-icons/fa';
 
 const CredentialItem = ({ icon, text }) => (
   <div className="flex items-start mb-3">
@@ -28,7 +28,7 @@ const ExpertSection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row items-center gap-8">
-          {/* Expert Image */}
+          {/* Expert Image with Caption */}
           <motion.div 
             className="w-full md:w-1/3 mb-8 md:mb-0"
             initial={{ opacity: 0, x: -20 }}
@@ -38,13 +38,21 @@ const ExpertSection = () => {
           >
             <div className="relative rounded-xl overflow-hidden shadow-xl mx-auto max-w-sm">
               <Image
-                src="/images/expert-placeholder.png"
-                alt="Experto en Prevención de Lavado de Activos"
+                src="/images/excma-sra-aileen-guzman-coste.jpg"
+                alt="Excma. Sra. Aileen Guzmán Coste"
                 width={400}
                 height={500}
                 style={{ objectFit: 'cover' }}
                 className="w-full"
               />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                <p className="text-white text-center text-sm font-medium">
+                  Excma. Sra. Aileen Guzmán Coste
+                </p>
+                <p className="text-white/80 text-center text-xs">
+                  Directora General, Unidad de Análisis Financiero de República Dominicana
+                </p>
+              </div>
             </div>
           </motion.div>
           
@@ -74,22 +82,27 @@ const ExpertSection = () => {
               
               <CredentialItem 
                 icon={<FaBriefcase />}
-                text="Experiencia en auditoría y compliance en instituciones financieras líderes"
+                text="Directora General, Unidad de Análisis Financiero de República Dominicana"
               />
               
               <CredentialItem 
                 icon={<FaAward />}
-                text="Especialización en prevención de lavado de activos y financiamiento del terrorismo"
+                text="Representante Regional, Grupo Egmont de Unidades de Inteligencia Financiera"
               />
               
               <CredentialItem 
                 icon={<FaUniversity />}
-                text="Expertos con reconocimiento de organismos internacionales"
+                text="Evaluadora Certificada, GAFILAT"
               />
               
               <CredentialItem 
                 icon={<FaAward />}
-                text="Docentes de la certificación CIPLAD respaldada por la Universidad para la Paz (ONU)"
+                text="Especialista en Crimen Organizado, Corrupción y Terrorismo, Universidad de Salamanca"
+              />
+
+              <CredentialItem 
+                icon={<FaCheck />}
+                text="Maestría, Derecho Regulación Económica, Pontificia Universidad Católica Madre y Maestra"
               />
             </div>
             

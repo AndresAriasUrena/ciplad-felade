@@ -2,7 +2,7 @@
 import './globals.css';
 import { Poppins, Montserrat } from 'next/font/google';
 import Link from 'next/link';
-import MetaPixel from '../components/tracking/MetaPixel';
+import MetaPixel from '../app/components/tracking/MetaPixel';
 
 // Configuración de fuentes con next/font
 const poppins = Poppins({ 
