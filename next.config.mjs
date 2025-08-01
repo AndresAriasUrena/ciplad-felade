@@ -14,8 +14,8 @@ const nextConfig = {
       domains: [
         'assets.brevo.com',
         'localhost',
-        'felade.org',
-        'ciplad.felade.org',
+        'felade.com',
+        'ciplad.felade.com',
       ],
     },
   };

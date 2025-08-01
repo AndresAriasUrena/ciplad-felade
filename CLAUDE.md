@@ -119,7 +119,8 @@ npm run lint        # Run ESLint
 
 - **API Routes:** All API routes have `export const dynamic = 'force-dynamic'` for Next.js compatibility
 - **Development:** Static export disabled to allow API functionality  
-- **Production Deployment:** Choose between static export OR server deployment for API functionality
+- **Production Deployment:** **Vercel** (recommended for API routes compatibility)
+- **Domain:** Configured for `ciplad.felade.com` production domain
 - **ONVO Integration:** ✅ **FULLY IMPLEMENTED AND TESTED**
   - Single payments ($1,225) via PaymentIntent API
   - Recurring payments (3x $475) via Subscriptions API
@@ -130,6 +131,40 @@ npm run lint        # Run ESLint
 - **Email System:** Placeholder implementation (extend with Mailgun/SendGrid)
 - **Certification Program:** 4-month duration, 6 academic credits, UN Peace University accredited
 - **Target Audience:** Latin American compliance professionals
+
+## Production Deployment (Vercel)
+
+### Setup Instructions
+1. **Connect Repository**: Link GitHub repo to Vercel account
+2. **Set Environment Variables** in Vercel dashboard:
+   ```bash
+   # ONVO Production Keys (replace with live keys)
+   NEXT_PUBLIC_ONVO_PUBLIC_KEY=onvo_live_publishable_key_...
+   ONVO_SECRET_KEY=onvo_live_secret_key_...
+   
+   # Product/Price IDs (production values)
+   ONVO_PRODUCT_ID_3_CUOTAS=prod_cuotas_id
+   ONVO_PRODUCT_ID_FULLPAY=prod_fullpay_id
+   NEXT_PUBLIC_ONVO_PRICE_ID_CUOTAS=prod_price_cuotas_id
+   NEXT_PUBLIC_ONVO_PRICE_ID_FULLPAY=prod_price_fullpay_id
+   ONVO_PRICE_ID_CUOTAS=prod_price_cuotas_id
+   ONVO_PRICE_ID_FULLPAY=prod_price_fullpay_id
+   
+   # Webhook & Site
+   ONVO_WEBHOOK_SECRET=whsec_production_secret
+   NEXT_PUBLIC_SITE_URL=https://ciplad.felade.com
+   
+   # Analytics (optional)
+   NEXT_PUBLIC_GA_ID=your_google_analytics_id
+   NEXT_PUBLIC_FB_PIXEL_ID=your_facebook_pixel_id
+   ```
+3. **Domain Configuration**: Set custom domain to `ciplad.felade.com`
+4. **Deploy**: Automatic deployment on every push to main branch
+
+### Domain Settings
+- **Production URL**: `https://ciplad.felade.com`
+- **Image Domains**: Configured for `ciplad.felade.com` and `felade.com`
+- **HTTPS**: Automatic SSL/TLS certificate through Vercel
 
 ## Troubleshooting
 
@@ -158,3 +193,4 @@ npm run lint        # Run ESLint
 - ✅ **Layout Optimization**: Expanded container width for better visual balance
 - ✅ **Hero Section**: Updated with professional background image and improved structure
 - ✅ **Payment Form**: Split into Personal Information and Payment Information sections
+- ✅ **Production Ready**: Configured for Vercel deployment at `ciplad.felade.com`
