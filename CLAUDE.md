@@ -59,12 +59,21 @@ npm run lint        # Run ESLint
 ### Component Structure
 ```
 /src/app/components/
-├── landing/              # Landing page sections
-├── payment/              # Payment components (OnvoPayment*)
+├── landing/              # Landing page sections (HeroSection, etc.)
+├── payment/              # Payment components (OnvoPaymentSubscription - 2-column layout)
 ├── tracking/             # Analytics (MetaPixel)
 ├── common/               # Reusable UI components
-└── whatsapp/            # WhatsApp page components
+├── whatsapp/            # WhatsApp page components
+└── SimplePaymentSection.js  # Main payment section with plan selection
 ```
+
+### UI/UX Features
+- **2-Column Payment Form**: Personal info (left) + Payment widget (right)
+- **Responsive Design**: Adapts seamlessly from desktop to mobile
+- **Visual Hierarchy**: Clear separation between data entry and payment processing
+- **Professional Layout**: Enhanced container widths and spacing
+- **Hero Background**: Custom background image with gradient overlay
+- **Payment Plans**: Visual selection between single payment and installments
 
 ### Styling System
 - **Tailwind Config:** Custom FELADE colors and utilities
@@ -145,3 +154,7 @@ npm run lint        # Run ESLint
 - ✅ Added comprehensive logging and error handling throughout payment flow
 - ✅ Tested and validated both payment methods with ONVO test cards
 - ✅ Success page displays correct payment information and next steps
+- ✅ **UI/UX Improvements**: Enhanced payment form with 2-column layout
+- ✅ **Layout Optimization**: Expanded container width for better visual balance
+- ✅ **Hero Section**: Updated with professional background image and improved structure
+- ✅ **Payment Form**: Split into Personal Information and Payment Information sections

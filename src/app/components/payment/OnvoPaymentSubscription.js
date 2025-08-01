@@ -279,7 +279,7 @@ const OnvoPaymentSubscription = ({ paymentType = 'cuotas', productName = 'Certif
   const productData = getProductData()
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto">
+    <div className="bg-white rounded-2xl shadow-xl p-6 max-w-4xl mx-auto">
       {/* Header del formulario */}
       <div className="text-center mb-6">
         <div className="w-12 h-12 bg-gradient-to-r from-[#01174D] to-[#1e3a8a] rounded-full flex items-center justify-center mx-auto mb-3">
@@ -298,109 +298,127 @@ const OnvoPaymentSubscription = ({ paymentType = 'cuotas', productName = 'Certif
         )}
       </div>
 
-      {/* Formulario */}
-      <form onSubmit={handlePayment} className="space-y-4">
-        {/* Nombre completo */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
-            Nombre Completo *
-          </label>
-          <input
-            type="text"
-            value={paymentForm.fullName}
-            onChange={(e) => setPaymentForm(prev => ({...prev, fullName: e.target.value}))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
-            placeholder="Tu nombre completo"
-            required
-            disabled={isLoading}
-          />
-        </div>
+      {/* Formulario en 2 columnas */}
+      <form onSubmit={handlePayment}>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Columna Izquierda - Datos Personales */}
+          <div className="space-y-4">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
+              Información Personal
+            </h4>
+            
+            {/* Nombre completo */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Nombre Completo *
+              </label>
+              <input
+                type="text"
+                value={paymentForm.fullName}
+                onChange={(e) => setPaymentForm(prev => ({...prev, fullName: e.target.value}))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
+                placeholder="Tu nombre completo"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
-        {/* Email */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
-            Email *
-          </label>
-          <input
-            type="email"
-            value={paymentForm.email}
-            onChange={(e) => setPaymentForm(prev => ({...prev, email: e.target.value}))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
-            placeholder="tu@email.com"
-            required
-            disabled={isLoading}
-          />
-        </div>
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Email *
+              </label>
+              <input
+                type="email"
+                value={paymentForm.email}
+                onChange={(e) => setPaymentForm(prev => ({...prev, email: e.target.value}))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
+                placeholder="tu@email.com"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
-        {/* Teléfono */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
-            Teléfono *
-          </label>
-          <input
-            type="tel"
-            value={paymentForm.phone}
-            onChange={(e) => setPaymentForm(prev => ({...prev, phone: e.target.value}))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
-            placeholder="+506 8888-8888"
-            required
-            disabled={isLoading}
-          />
-        </div>
+            {/* Teléfono */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Teléfono *
+              </label>
+              <input
+                type="tel"
+                value={paymentForm.phone}
+                onChange={(e) => setPaymentForm(prev => ({...prev, phone: e.target.value}))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
+                placeholder="+506 8888-8888"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
-        {/* Error message */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-red-600 text-sm">{error}</p>
+            {/* Error message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
           </div>
-        )}
 
-        {/* Container para el widget de ONVO */}
-        <div id="onvo-payment-container" className="min-h-[200px] border border-gray-200 rounded-lg p-4 bg-gray-50">
-          <div className="text-center text-gray-500 text-sm">
-            {isLoading ? 'Cargando sistema de pagos...' : 'El formulario de tarjeta aparecerá aquí'}
+          {/* Columna Derecha - Formulario de Tarjeta */}
+          <div className="space-y-4">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
+              Información de Pago
+            </h4>
+            
+            {/* Container para el widget de ONVO */}
+            <div id="onvo-payment-container" className="min-h-[280px] border border-gray-200 rounded-lg p-4 bg-gray-50">
+              <div className="text-center text-gray-500 text-sm">
+                {isLoading ? 'Cargando sistema de pagos...' : 'El formulario de tarjeta aparecerá aquí'}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Botón de pago */}
-        <button
-          type="submit"
-          disabled={isLoading || !isOnvoReady}
-          className={`w-full py-3 px-4 rounded-lg font-bold text-base flex items-center justify-center space-x-2 transition-all duration-300 ${
-            isLoading || !isOnvoReady
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-gradient-to-r from-[#01174D] to-[#1e3a8a] hover:from-[#000d2b] hover:to-[#01174D] transform hover:scale-105 shadow-lg'
-          } text-white`}
-        >
-          {isLoading ? (
-            <>
-              <FaSpinner className="animate-spin" />
-              <span>Procesando...</span>
-            </>
-          ) : !isOnvoReady ? (
-            <span>Cargando sistema de pagos...</span>
-          ) : (
-            <>
-              <FaLock />
-              <span>Iniciar {paymentType === 'cuotas' ? 'Suscripción' : 'Pago'}</span>
-            </>
-          )}
-        </button>
+        {/* Botón de pago - Ancho completo */}
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <button
+            type="submit"
+            disabled={isLoading || !isOnvoReady}
+            className={`w-full py-3 px-4 rounded-lg font-bold text-base flex items-center justify-center space-x-2 transition-all duration-300 ${
+              isLoading || !isOnvoReady
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-gradient-to-r from-[#01174D] to-[#1e3a8a] hover:from-[#000d2b] hover:to-[#01174D] transform hover:scale-105 shadow-lg'
+            } text-white`}
+          >
+            {isLoading ? (
+              <>
+                <FaSpinner className="animate-spin" />
+                <span>Procesando...</span>
+              </>
+            ) : !isOnvoReady ? (
+              <span>Cargando sistema de pagos...</span>
+            ) : (
+              <>
+                <FaLock />
+                <span>Iniciar {paymentType === 'cuotas' ? 'Suscripción' : 'Pago'}</span>
+              </>
+            )}
+          </button>
 
-        {/* Información de seguridad */}
-        <div className="text-center">
-          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-2">
-            <FaLock className="text-green-500" />
-            <span>Pago 100% seguro y encriptado</span>
+          {/* Información de seguridad */}
+          <div className="text-center mt-4">
+            <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-2">
+              <FaLock className="text-green-500" />
+              <span>Pago 100% seguro y encriptado</span>
+            </div>
+            <p className="text-xs text-gray-400">
+              Powered by ONVO Payments • SSL Certificate • PCI Compliant
+            </p>
           </div>
-          <p className="text-xs text-gray-400">
-            Powered by ONVO Payments • SSL Certificate • PCI Compliant
-          </p>
         </div>
       </form>
 
       {/* Información importante */}
-      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+      <div className="mt-6 p-4 bg-blue-50 rounded-lg">
         <h4 className="font-semibold text-sm text-gray-900 mb-2">
           ℹ️ Información Importante
         </h4>

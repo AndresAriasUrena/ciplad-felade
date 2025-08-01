@@ -50,7 +50,7 @@ const SimplePaymentSection = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-4 mb-6">
             {/* Plan de Cuotas */}
             <div 
@@ -157,8 +157,8 @@ const SimplePaymentSection = () => {
             </div>
           </div>
 
-          {/* Formulario de Pago - Más compacto */}
-          <div className="max-w-sm mx-auto">
+          {/* Formulario de Pago - Ahora más ancho para 2 columnas */}
+          <div className="max-w-4xl mx-auto">
             <OnvoPaymentSubscription 
               paymentType={selectedPlan}
               productName="Certificación Internacional CIPLAD"

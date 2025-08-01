@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaShieldAlt, FaClock, FaGlobe, FaUsers, FaCertificate, FaChevronDown, FaWhatsapp, FaEnvelope, FaCheckCircle } from 'react-icons/fa'
+import { FaShieldAlt, FaClock, FaGlobe, FaUsers, FaCertificate, FaChevronDown, FaWhatsapp, FaEnvelope, FaCheckCircle, FaBook, FaBullseye, FaGlobeAmericas, FaUserTie, FaNetworkWired, FaAward } from 'react-icons/fa'
 
 import SimplePaymentSection from './components/SimplePaymentSection'
 
@@ -42,15 +42,27 @@ export default function CipladSalesPage() {
       <header className="bg-gradient-to-r from-[#01174D] to-[#1e3a8a] shadow-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <div className="h-10 w-auto relative">
-              <Image
-                src="/images/logoblanco.png"
-                alt="FELADE"
-                width={150}
-                height={40}
-                className="object-contain h-full w-auto"
-                priority
-              />
+            <div className="flex items-center space-x-8">
+              <div className="h-10 w-auto relative">
+                <Image
+                  src="/images/logoblanco.png"
+                  alt="FELADE"
+                  width={150}
+                  height={40}
+                  className="object-contain h-full w-auto"
+                  priority
+                />
+              </div>
+              <div className="h-8 w-px bg-white bg-opacity-40"></div>
+              <div className="h-10 w-auto relative">
+                <Image
+                  src="/images/upaz-logo-white.png"
+                  alt="Universidad para la Paz (ONU)"
+                  width={120}
+                  height={40}
+                  className="object-contain h-full w-auto"
+                />
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-white text-sm">¿Necesitas ayuda?</span>
@@ -65,7 +77,6 @@ export default function CipladSalesPage() {
           </div>
         </div>
       </header>
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#01174D] via-[#1e3a8a] to-[#2563eb] text-white overflow-hidden">
         {/* Background pattern */}
@@ -81,13 +92,13 @@ export default function CipladSalesPage() {
             {/* Contenido Principal */}
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                <FaCertificate className="text-yellow-400 mr-2" />
+                <FaCertificate className="text-[#50D0FF] mr-2" />
                 <span className="text-sm font-medium">Certificación Internacional</span>
               </div>
               
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
                 <span className="block">Certificación</span>
-                <span className="block text-yellow-400">CIPLAD</span>
+                <span className="block text-[#50D0FF]">CIPLAD</span>
               </h1>
               
               <p className="text-xl lg:text-2xl text-blue-100 mb-4 font-light leading-relaxed">
@@ -113,8 +124,8 @@ export default function CipladSalesPage() {
 
               {/* CTA Principal */}
               <div className="space-y-4">
-                <button className="w-full lg:w-auto bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl">
-                  🚀 Inscríbete Ahora - USD $1,225
+                <button className="w-full lg:w-auto bg-gradient-to-r from-yellow-500 to-yellow-600 text-white hover:text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl">
+                   Inscríbete Ahora - USD $1,225
                 </button>
                 <p className="text-sm text-blue-200">
                   💳 Disponible en 3 cuotas de USD $475 c/u
@@ -122,30 +133,40 @@ export default function CipladSalesPage() {
               </div>
             </div>
 
-            {/* Imagen/Visual */}
+            {/* Imagen/Visual - ACTUALIZADA */}
             <div className="relative">
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center text-4xl mb-6 mx-auto">
-                    🛡️
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">Programa Destacado</h3>
-                  <div className="space-y-3 text-left">
+              <div className="relative rounded-3xl p-8 border border-white/20 overflow-hidden">
+                {/* Imagen de fondo */}
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src="/images/hero-background.png"
+                    alt="Background"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="w-full h-full"
+                  />
+                  {/* Capa opaca con gradiente */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#01174D]/50 via-[#01174D]/60 to-[#01174D]/80"></div>
+                </div>
+                
+                <div className="relative z-10 text-white">
+                  {/* Grid de 2 columnas para los features, alineados al bottom */}
+                  <div className="grid grid-cols-2 gap-2 items-end min-h-[320px] pt-[220px]">
                     <div className="flex items-center space-x-3">
-                      <FaClock className="text-yellow-400 flex-shrink-0" />
-                      <span>4 meses de duración</span>
+                      <FaClock className="text-[#50D0FF] flex-shrink-0 text-xl" />
+                      <span className="text-sm font-medium">4 meses de duración</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <FaGlobe className="text-yellow-400 flex-shrink-0" />
-                      <span>100% en línea</span>
+                      <FaGlobe className="text-[#50D0FF] flex-shrink-0 text-xl" />
+                      <span className="text-sm font-medium">100% en línea</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <FaCertificate className="text-yellow-400 flex-shrink-0" />
-                      <span>6 créditos académicos</span>
+                      <FaCertificate className="text-[#50D0FF] flex-shrink-0 text-xl" />
+                      <span className="text-sm font-medium">6 créditos académicos</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <FaUsers className="text-yellow-400 flex-shrink-0" />
-                      <span>Reconocimiento internacional</span>
+                      <FaUsers className="text-[#50D0FF] flex-shrink-0 text-xl" />
+                      <span className="text-sm font-medium">Reconocimiento internacional</span>
                     </div>
                   </div>
                 </div>
@@ -167,45 +188,74 @@ export default function CipladSalesPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "📚",
-                title: "Contenido Actualizado",
-                description: "Marcos regulatorios internacionales más recientes y casos de estudio reales"
-              },
-              {
-                icon: "🎯",
-                title: "Enfoque Práctico", 
-                description: "Herramientas y metodologías aplicables directamente en tu trabajo diario"
-              },
-              {
-                icon: "🌍",
-                title: "Reconocimiento Global",
-                description: "Certificación válida en más de 10 países de Latinoamérica"
-              },
-              {
-                icon: "👨‍🏫",
-                title: "Expertos Internacionales",
-                description: "Profesores con experiencia en organismos reguladores y banca internacional"
-              },
-              {
-                icon: "🤝",
-                title: "Networking",
-                description: "Acceso a una red de más de 17,000 profesionales certificados"
-              },
-              {
-                icon: "🏆",
-                title: "Aval Académico",
-                description: "Respaldo de la Universidad para la Paz de Naciones Unidas"
-              }
-            ].map((feature, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Columna Izquierda - Imagen de la Experta */}
+            <div className="flex justify-center">
+              <div className="relative rounded-xl overflow-hidden shadow-xl max-w-sm">
+                <Image
+                  src="/images/excma-sra-aileen-guzman-coste.jpg"
+                  alt="Excma. Sra. Aileen Guzmán Coste"
+                  width={400}
+                  height={500}
+                  style={{ objectFit: 'cover' }}
+                  className="w-full"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <p className="text-white text-center text-sm font-medium">
+                    Excma. Sra. Aileen Guzmán Coste
+                  </p>
+                  <p className="text-white/80 text-center text-xs">
+                    Directora General, Unidad de Análisis Financiero de República Dominicana
+                  </p>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Columna Derecha - Lista de Features */}
+            <div className="space-y-6">
+              {[
+                {
+                  icon: <FaBook className="text-yellow-500" />,
+                  title: "Contenido Actualizado",
+                  description: "Marcos regulatorios internacionales más recientes y casos de estudio reales"
+                },
+                {
+                  icon: <FaBullseye className="text-yellow-500" />,
+                  title: "Enfoque Práctico", 
+                  description: "Herramientas y metodologías aplicables directamente en tu trabajo diario"
+                },
+                {
+                  icon: <FaGlobeAmericas className="text-yellow-500" />,
+                  title: "Reconocimiento Global",
+                  description: "Certificación válida en más de 10 países de Latinoamérica"
+                },
+                {
+                  icon: <FaUserTie className="text-yellow-500" />,
+                  title: "Expertos Internacionales",
+                  description: "Profesores con experiencia en organismos reguladores y banca internacional"
+                },
+                {
+                  icon: <FaNetworkWired className="text-yellow-500" />,
+                  title: "Networking",
+                  description: "Acceso a una red de más de 17,000 profesionales certificados"
+                },
+                {
+                  icon: <FaAward className="text-yellow-500" />,
+                  title: "Aval Académico",
+                  description: "Respaldo de la Universidad para la Paz de Naciones Unidas"
+                }
+              ].map((feature, index) => (
+                <div key={index} className="flex items-start space-x-4 bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div className="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-xl">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-blue-900 mb-2">{feature.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-sm">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -222,58 +272,57 @@ export default function CipladSalesPage() {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  module: "Módulo 1",
+                  module: 1,
                   title: "Fundamentos del Lavado de Activos",
                   topics: ["Conceptos básicos", "Tipologías criminales", "Impacto económico global"]
                 },
                 {
-                  module: "Módulo 2", 
+                  module: 2, 
                   title: "Marco Regulatorio Internacional",
                   topics: ["FATF/GAFI", "Legislación por países", "Sanciones internacionales"]
                 },
                 {
-                  module: "Módulo 3",
+                  module: 3,
                   title: "Detección de Operaciones Sospechosas",
                   topics: ["Señales de alerta", "Análisis de transacciones", "Reportes regulatorios"]
                 },
                 {
-                  module: "Módulo 4",
+                  module: 4,
                   title: "Implementación de Programas de Compliance",
                   topics: ["Políticas y procedimientos", "Capacitación del personal", "Auditorías internas"]
                 },
                 {
-                  module: "Módulo 5",
+                  module: 5,
                   title: "Tecnología y Nuevas Amenazas",
                   topics: ["Fintech y criptoactivos", "Cibercrimen", "Inteligencia artificial en AML"]
                 },
                 {
-                  module: "Módulo 6",
+                  module: 6,
                   title: "Casos Prácticos y Evaluación Final",
                   topics: ["Estudios de caso reales", "Simulaciones", "Proyecto de certificación"]
                 }
               ].map((module, index) => (
-                <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300">
                   <div className="bg-gradient-to-r from-[#01174D] to-[#1e3a8a] text-white p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-yellow-400 font-semibold">{module.module}</span>
-                        <h3 className="text-xl font-bold mt-1">{module.title}</h3>
-                      </div>
-                      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-                        {index + 1}️⃣
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[#50D0FF] font-semibold text-sm">Módulo {module.module}</span>
+                      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                        <span className="text-2xl font-bold font-mono">{module.module}</span>
                       </div>
                     </div>
+                    <h3 className="text-lg font-bold leading-tight">{module.title}</h3>
                   </div>
                   <div className="p-6">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="space-y-3">
                       {module.topics.map((topic, topicIndex) => (
-                        <span key={topicIndex} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                          {topic}
-                        </span>
+                        <div key={topicIndex} className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-sm text-gray-600">{topic}</span>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -283,6 +332,7 @@ export default function CipladSalesPage() {
           </div>
         </div>
       </section>
+
 
       {/* Testimonios */}
       <section className="py-16 bg-gray-50">
