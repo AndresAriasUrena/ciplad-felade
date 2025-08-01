@@ -58,6 +58,12 @@ export default function RootLayout({ children }) {
           </div>
         </footer>
         
+        {/* Script ONVO SDK */}
+        <script
+          src="https://sdk.onvopay.com/sdk.js"
+          async
+        />
+        
         {/* Scripts de analítica (condicional) */}
         {process.env.NODE_ENV === 'production' && (
           <>

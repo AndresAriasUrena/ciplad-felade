@@ -44,7 +44,7 @@ export default function CipladSalesPage() {
           <div className="flex justify-between items-center">
             <div className="h-10 w-auto relative">
               <Image
-                src="/images/icons/FELADE-blanco.png"
+                src="/images/logoblanco.png"
                 alt="FELADE"
                 width={150}
                 height={40}
@@ -386,7 +386,7 @@ export default function CipladSalesPage() {
               <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl p-8">
                 <div className="mb-6">
                   <Image
-                    src="/images/icons/UPAZ-logo.png"
+                    src="/images/upaz-logo.png"
                     alt="Universidad para la Paz - UPAZ"
                     width={200}
                     height={80}
@@ -597,7 +597,7 @@ export default function CipladSalesPage() {
             <div>
               <div className="h-8 w-auto relative mb-4">
                 <Image
-                  src="/images/icons/FELADE-blanco.png"
+                  src="/images/logoblanco.png"
                   alt="FELADE"
                   width={120}
                   height={32}

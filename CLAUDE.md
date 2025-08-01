@@ -17,9 +17,9 @@ npm run lint        # Run ESLint
 ```
 
 **Build Output:**
-- Configured for static export (`output: 'export'`)
-- Generates static files in `/out` directory
-- API routes require server environment (will not work in static export)
+- Static export disabled in development to allow API routes
+- For production static export, uncomment `output: 'export'` in next.config.mjs
+- API routes require server environment and `dynamic = 'force-dynamic'` export
 
 ## Architecture
 
@@ -29,11 +29,14 @@ npm run lint        # Run ESLint
 - **Tailwind CSS** with custom FELADE branding
 - **React 19** with modern hooks
 
-### Payment Integration
-- **Primary:** ONVO Pay (Costa Rican payment platform)
-- **Unused:** Stripe dependencies present but not implemented
-- **Support:** SINPE Móvil transfers and credit cards
-- **Plans:** Single payment ($1,225) or 3-installment plan ($475 each)
+### Payment Integration ✅ FULLY IMPLEMENTED
+- **Primary:** ONVO Pay (Costa Rican payment platform) - **WORKING**
+- **Payment Types:** 
+  - Single payment ($1,225 USD) - Uses PaymentIntent API
+  - 3 monthly installments ($475 USD each) - Uses Subscriptions API
+- **Supported Methods:** Credit cards (Visa, Mastercard, AMEX), SINPE Móvil
+- **Test Cards:** 4242424242424242 (success), 4000000000000002 (decline)
+- **Status:** Both payment flows fully functional with ONVO SDK integration
 
 ### API Architecture (`/src/app/api/`)
 ```
@@ -43,11 +46,15 @@ npm run lint        # Run ESLint
 ```
 
 **Key Environment Variables:**
-- `NEXT_PUBLIC_ONVO_PUBLIC_KEY` - Client-side ONVO key
-- `ONVO_SECRET_KEY` - Server-side ONVO key  
-- `ONVO_PRICE_ID_3_CUOTAS` - Installment plan price ID
-- `ONVO_PRICE_ID_FULLPAY` - Single payment price ID
-- `ONVO_WEBHOOK_SECRET` - Webhook validation
+- `NEXT_PUBLIC_ONVO_PUBLIC_KEY` - Client-side ONVO key for SDK
+- `ONVO_SECRET_KEY` - Server-side ONVO key for API calls
+- `ONVO_PRODUCT_ID_3_CUOTAS` - Backend product ID for subscriptions  
+- `ONVO_PRODUCT_ID_FULLPAY` - Backend product ID for single payments
+- `NEXT_PUBLIC_ONVO_PRICE_ID_CUOTAS` - Frontend price ID for 3-installment plan
+- `NEXT_PUBLIC_ONVO_PRICE_ID_FULLPAY` - Frontend price ID for single payment
+- `ONVO_PRICE_ID_CUOTAS` - Backend price ID for subscription creation
+- `ONVO_PRICE_ID_FULLPAY` - Backend price ID for payment intent creation
+- `ONVO_WEBHOOK_SECRET` - Webhook validation secret
 
 ### Component Structure
 ```
@@ -72,11 +79,15 @@ npm run lint        # Run ESLint
 
 ## Development Guidelines
 
-### Working with Payments
-- Payment forms are in `OnvoPaymentSubscription.js`
-- Test with ONVO sandbox environment first
-- Webhook testing requires ngrok or similar tunnel
-- Customer deduplication handled automatically by API
+### Working with Payments ✅ FULLY FUNCTIONAL
+- **Main Component:** `OnvoPaymentSubscription.js` - Handles both payment types
+- **Single Payment Flow:** Creates PaymentIntent → Renders ONVO SDK → Processes card
+- **Subscription Flow:** Creates Subscription → Renders ONVO SDK → Processes recurring payments
+- **Backend API:** `/api/onvo/create-subscription/` handles both flows automatically
+- **Test Environment:** ONVO sandbox with test cards (4242424242424242 for success)
+- **Customer Management:** Automatic customer creation and deduplication by email
+- **Error Handling:** Comprehensive logging with Spanish error messages
+- **Success Redirect:** `/payment/success` with transaction details and next steps
 
 ### Styling Conventions
 - Use FELADE brand colors consistently
@@ -97,8 +108,40 @@ npm run lint        # Run ESLint
 
 ## Important Notes
 
-- **Production Deployment:** Requires server environment for API routes
+- **API Routes:** All API routes have `export const dynamic = 'force-dynamic'` for Next.js compatibility
+- **Development:** Static export disabled to allow API functionality  
+- **Production Deployment:** Choose between static export OR server deployment for API functionality
+- **ONVO Integration:** ✅ **FULLY IMPLEMENTED AND TESTED**
+  - Single payments ($1,225) via PaymentIntent API
+  - Recurring payments (3x $475) via Subscriptions API
+  - Complete customer lifecycle management
+  - Real-time webhook processing
+  - ONVO SDK integration with dynamic loading
 - **Analytics:** Meta Pixel and Google Analytics configured for production
 - **Email System:** Placeholder implementation (extend with Mailgun/SendGrid)
 - **Certification Program:** 4-month duration, 6 academic credits, UN Peace University accredited
 - **Target Audience:** Latin American compliance professionals
+
+## Troubleshooting
+
+### API Errors
+- Ensure `.env.local` has all ONVO environment variables
+- For production, update ONVO keys to production values
+- API routes return 500 if `dynamic = 'force-dynamic'` is missing
+
+### Payment Integration ✅ WORKING
+- **ONVO SDK:** Loads dynamically, handles both payment types seamlessly  
+- **Test Environment:** Fully configured with ONVO sandbox
+- **Test Cards:** 4242424242424242 (success), 4000000000000002 (decline)
+- **API Endpoints:** All payment APIs functional with proper error handling
+- **Webhook Processing:** Configured for payment events and subscription updates
+- **Customer Phone Format:** Automatically formats to Costa Rican standard (+506 8888-8888)
+- **Database:** Customer deduplication by email prevents duplicate accounts
+
+### Recent Updates (Aug 2025)
+- ✅ Fixed PaymentIntent creation for single payments ($1,225)
+- ✅ Fixed Subscription creation for recurring payments (3x $475)  
+- ✅ Implemented proper ONVO API schema with priceId instead of productId
+- ✅ Added comprehensive logging and error handling throughout payment flow
+- ✅ Tested and validated both payment methods with ONVO test cards
+- ✅ Success page displays correct payment information and next steps

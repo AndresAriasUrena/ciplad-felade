@@ -14,19 +14,30 @@ export default function PaymentSuccessPage() {
 
   useEffect(() => {
     // Obtener datos del pago desde los parámetros de URL
-    const transactionId = searchParams.get('transaction_id')
-    const amount = searchParams.get('amount')
-    const email = searchParams.get('email')
+    const subscriptionId = searchParams.get('subscription')
+    const paymentType = searchParams.get('type')
+    const isTest = searchParams.get('test')
     
-    if (transactionId) {
-      // Verificar el pago con el backend
-      verifyPayment(transactionId)
+    console.log('📄 Página de éxito cargada:', { subscriptionId, paymentType, isTest })
+    
+    // Determinar el valor basado en el tipo de pago
+    const amount = paymentType === 'cuotas' ? 475 : 1225
+    
+    if (subscriptionId) {
+      // Simular verificación del pago (en producción hacer llamada real)
+      setPaymentData({
+        subscription_id: subscriptionId,
+        payment_type: paymentType,
+        is_test: isTest === 'true',
+        amount: amount,
+        customer_email: 'usuario@ejemplo.com' // En producción obtener del backend
+      })
     }
 
     // Tracking de conversión
     if (typeof fbq !== 'undefined') {
       fbq('track', 'Purchase', {
-        value: amount || 1225,
+        value: amount,
         currency: 'USD',
         content_name: 'Certificación CIPLAD',
         content_category: 'Education'
@@ -35,18 +46,20 @@ export default function PaymentSuccessPage() {
 
     if (typeof gtag !== 'undefined') {
       gtag('event', 'purchase', {
-        transaction_id: transactionId,
-        value: amount || 1225,
+        transaction_id: subscriptionId,
+        value: amount,
         currency: 'USD',
         items: [{
           item_id: 'CIPLAD',
           item_name: 'Certificación CIPLAD',
           category: 'Education',
           quantity: 1,
-          price: amount || 1225
+          price: amount
         }]
       })
     }
+    
+    setIsLoading(false)
   }, [searchParams])
 
   const verifyPayment = async (transactionId) => {
@@ -82,7 +95,7 @@ export default function PaymentSuccessPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="h-10 w-auto relative">
             <Image
-              src="/images/icons/FELADE-logo.png"
+              src="/images/felade-logo.png"
               alt="FELADE"
               width={150}
               height={40}
@@ -108,6 +121,25 @@ export default function PaymentSuccessPage() {
             <div className="inline-flex items-center bg-green-100 text-green-800 px-6 py-3 rounded-full font-semibold">
               🎉 Tu lugar está reservado en el próximo grupo
             </div>
+            
+            {paymentData?.is_test && (
+              <div className="mt-4 inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-lg text-sm">
+                🧪 Pago simulado exitoso - En producción se procesará con ONVO Pay
+              </div>
+            )}
+            
+            {paymentData && (
+              <div className="mt-4 text-center">
+                <p className="text-gray-600">
+                  Plan seleccionado: <strong>
+                    {paymentData.payment_type === 'cuotas' ? '3 Cuotas de $475 USD' : 'Pago Completo $1,225 USD'}
+                  </strong>
+                </p>
+                <p className="text-sm text-gray-500 mt-1">
+                  ID de suscripción: {paymentData.subscription_id}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">

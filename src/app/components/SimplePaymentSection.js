@@ -1,278 +1,208 @@
-// src/components/SimplePaymentSection.js
+// src/app/components/SimplePaymentSection.js
 'use client'
 
 import { useState } from 'react'
+import OnvoPaymentSubscription from './payment/OnvoPaymentSubscription'
 import { FaCheckCircle } from 'react-icons/fa'
 
-// Configuración de productos - ESTOS LINKS LOS DEBES CREAR EN EL DASHBOARD DE ONVO
-const PAYMENT_PRODUCTS = {
-  full: {
-    name: 'Pago Completo',
-    price: 'USD $1,225',
-    description: 'Un solo pago',
-    // IMPORTANTE: Reemplazar con el link real de tu dashboard ONVO
-    link: 'https://checkout.onvopay.com/pay/REEMPLAZAR-CON-LINK-REAL', 
-    benefits: [
-      'Acceso completo al programa',
-      'Certificado físico y digital', 
-      'Material de estudio descargable',
-      'Acceso vitalicio al contenido'
-    ]
-  },
-  installments: {
-    name: 'Plan de Cuotas',
-    price: '3 × USD $475',
-    description: 'Sin intereses',
-    // IMPORTANTE: Este debe ser un link a una SUSCRIPCIÓN, no un pago único
-    link: 'https://checkout.onvopay.com/pay/REEMPLAZAR-CON-SUSCRIPCION-LINK',
-    benefits: [
-      'Acceso inmediato al programa',
-      'Sin intereses adicionales',
-      'Cuotas automáticas mensuales',
-      'Recordatorios automáticos'
-    ]
-  }
-}
+const SimplePaymentSection = () => {
+  const [selectedPlan, setSelectedPlan] = useState('cuotas')
 
-export default function SimplePaymentSection() {
-  const [selectedPlan, setSelectedPlan] = useState('full')
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    country: ''
-  })
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const isFormValid = formData.name && formData.email && formData.phone && formData.country
-
-  const handlePayment = (planType) => {
-    if (!isFormValid) {
-      alert('Por favor completa todos los campos')
-      return
+  const plans = {
+    cuotas: {
+      name: '3 Cuotas Mensuales',
+      price: '$475 USD',
+      description: 'Pago automático mensual',
+      features: [
+        'Acceso inmediato al programa',
+        'Pagos automáticos cada mes',
+        'Se cancela automáticamente después de 3 pagos',
+        'Sin compromisos adicionales'
+      ],
+      savings: false,
+      popular: true
+    },
+    completo: {
+      name: 'Pago Completo',
+      price: '$1,225 USD',
+      originalPrice: '$1,425',
+      description: 'Pago único con descuento',
+      features: [
+        'Acceso completo inmediato',
+        'Ahorra $200 USD',
+        'Sin pagos recurrentes',
+        'Certificación completa'
+      ],
+      savings: '$200 USD de ahorro',
+      popular: false
     }
-
-    const product = PAYMENT_PRODUCTS[planType]
-    
-    // Tracking para analytics
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'begin_checkout', {
-        currency: 'USD',
-        value: planType === 'full' ? 1225 : 475,
-        items: [{
-          item_id: 'CIPLAD',
-          item_name: 'Certificación CIPLAD',
-          category: 'Education',
-          quantity: 1,
-          price: planType === 'full' ? 1225 : 475
-        }]
-      })
-    }
-
-    // Opcional: Enviar datos a tu sistema antes de redirigir
-    console.log('Datos del estudiante:', formData)
-    console.log('Plan seleccionado:', planType)
-    
-    // Guardar datos en localStorage para recuperarlos después del pago
-    localStorage.setItem('ciplad_student_data', JSON.stringify({
-      ...formData,
-      plan: planType,
-      timestamp: new Date().toISOString()
-    }))
-
-    // Redirigir al checkout de ONVO
-    window.location.href = product.link
   }
 
   return (
-    <section className="py-16 bg-gradient-to-br from-[#01174D] to-[#1e3a8a] text-white">
+    <section id="payment" className="py-8 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen flex items-center">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            Inversión en tu Futuro Profesional
+        <div className="text-center mb-6">
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+            Elige tu Plan de Pago
           </h2>
-          <p className="text-lg text-blue-200">
-            Facilidades de pago diseñadas para que puedas acceder a la mejor capacitación
+          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+            Flexibilidad total para que puedas certificarte sin comprometer tu presupuesto
           </p>
         </div>
 
-        {/* Formulario de datos básicos */}
-        <div className="max-w-md mx-auto mb-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-          <h3 className="text-xl font-bold mb-4 text-center">Información Básica</h3>
-          
-          <div className="space-y-4">
-            <input
-              type="text"
-              name="name"
-              placeholder="Nombre completo *"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            />
-            
-            <input
-              type="email"
-              name="email"
-              placeholder="Email *"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            />
-            
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Teléfono *"
-              value={formData.phone}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            />
-            
-            <select
-              name="country"
-              value={formData.country}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            >
-              <option value="" className="text-gray-900">Selecciona tu país *</option>
-              <option value="CR" className="text-gray-900">🇨🇷 Costa Rica</option>
-              <option value="MX" className="text-gray-900">🇲🇽 México</option>
-              <option value="CO" className="text-gray-900">🇨🇴 Colombia</option>
-              <option value="PE" className="text-gray-900">🇵🇪 Perú</option>
-              <option value="PA" className="text-gray-900">🇵🇦 Panamá</option>
-              <option value="GT" className="text-gray-900">🇬🇹 Guatemala</option>
-              <option value="SV" className="text-gray-900">🇸🇻 El Salvador</option>
-              <option value="HN" className="text-gray-900">🇭🇳 Honduras</option>
-              <option value="NI" className="text-gray-900">🇳🇮 Nicaragua</option>
-              <option value="DO" className="text-gray-900">🇩🇴 República Dominicana</option>
-              <option value="US" className="text-gray-900">🇺🇸 Estados Unidos</option>
-            </select>
-          </div>
-
-          {!isFormValid && (
-            <p className="text-yellow-300 text-sm mt-4 text-center">
-              * Todos los campos son obligatorios
-            </p>
-          )}
-        </div>
-
-        {/* Opciones de pago */}
-        <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {Object.entries(PAYMENT_PRODUCTS).map(([key, product]) => (
+        <div className="max-w-4xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-4 mb-6">
+            {/* Plan de Cuotas */}
             <div 
-              key={key}
-              className={`bg-white/10 backdrop-blur-sm rounded-3xl p-8 border-2 transition-all duration-300 hover:bg-white/15 ${
-                selectedPlan === key ? 'border-yellow-400' : 'border-white/20'
+              className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-300 ${
+                selectedPlan === 'cuotas' 
+                  ? 'bg-gradient-to-br from-[#01174D] to-[#1e3a8a] text-white shadow-xl transform scale-105' 
+                  : 'bg-white hover:shadow-lg border-2 border-gray-200 hover:border-[#01174D]'
               }`}
+              onClick={() => setSelectedPlan('cuotas')}
             >
+              {plans.cuotas.popular && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-1 rounded-full text-sm font-bold">
+                    🔥 Más Popular
+                  </span>
+                </div>
+              )}
+              
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-bold mb-2">{plans.cuotas.name}</h3>
+                <div className="mb-3">
+                  <span className="text-3xl font-bold">{plans.cuotas.price}</span>
+                  <span className={`text-base ${selectedPlan === 'cuotas' ? 'text-blue-100' : 'text-gray-500'}`}> /mes</span>
+                </div>
+                <p className={`text-sm ${selectedPlan === 'cuotas' ? 'text-blue-100' : 'text-gray-600'}`}>
+                  {plans.cuotas.description}
+                </p>
+              </div>
+
+              <ul className="space-y-2 mb-4">
+                {plans.cuotas.features.map((feature, index) => (
+                  <li key={index} className="flex items-center space-x-2">
+                    <FaCheckCircle className={`text-sm ${selectedPlan === 'cuotas' ? 'text-green-300' : 'text-green-500'}`} />
+                    <span className={`text-sm ${selectedPlan === 'cuotas' ? 'text-blue-100' : 'text-gray-700'}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
               <div className="text-center">
-                <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-4 ${
-                  key === 'full' 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-blue-500 text-white'
+                <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
+                  selectedPlan === 'cuotas' 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-[#01174D] text-white'
                 }`}>
-                  {key === 'full' ? '💰 Mejor Valor' : '💳 Más Popular'}
+                  {selectedPlan === 'cuotas' ? '✓ Seleccionado' : 'Seleccionar Plan'}
                 </div>
-                
-                <h3 className="text-2xl font-bold mb-2">{product.name}</h3>
-                <div className="text-4xl font-bold text-yellow-400 mb-2">{product.price}</div>
-                <p className="text-blue-200 mb-6">{product.description}</p>
-                
-                <div className="space-y-3 text-left mb-8">
-                  {product.benefits.map((benefit, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <FaCheckCircle className="text-green-400 flex-shrink-0" />
-                      <span className="text-sm">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => handlePayment(key)}
-                  disabled={!isFormValid}
-                  className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
-                    !isFormValid
-                      ? 'bg-gray-500 cursor-not-allowed text-gray-300'
-                      : key === 'full'
-                        ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 shadow-xl'
-                        : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-400 hover:to-blue-500 transform hover:scale-105 shadow-xl'
-                  }`}
-                >
-                  {!isFormValid ? 'Completa tus datos' : 'Proceder al Pago'}
-                </button>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Información sobre cuotas automáticas */}
-        <div className="mt-12 max-w-4xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-            <h3 className="text-xl font-bold mb-4 text-center">
-              📋 ¿Cómo funciona el Plan de Cuotas?
-            </h3>
-            <div className="grid md:grid-cols-3 gap-6 text-center">
-              <div>
-                <div className="text-3xl mb-2">1️⃣</div>
-                <h4 className="font-bold mb-2">Pago Inicial</h4>
-                <p className="text-sm text-blue-200">
-                  Paga USD $475 y accede inmediatamente al programa
+            {/* Plan Completo */}
+            <div 
+              className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-300 ${
+                selectedPlan === 'completo' 
+                  ? 'bg-gradient-to-br from-[#01174D] to-[#1e3a8a] text-white shadow-xl transform scale-105' 
+                  : 'bg-white hover:shadow-lg border-2 border-gray-200 hover:border-[#01174D]'
+              }`}
+              onClick={() => setSelectedPlan('completo')}
+            >
+              {plans.completo.savings && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">
+                    💰 {plans.completo.savings}
+                  </span>
+                </div>
+              )}
+              
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-bold mb-2">{plans.completo.name}</h3>
+                <div className="mb-3">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span className={`text-base line-through ${selectedPlan === 'completo' ? 'text-blue-200' : 'text-gray-400'}`}>
+                      {plans.completo.originalPrice}
+                    </span>
+                    <span className="text-3xl font-bold">{plans.completo.price}</span>
+                  </div>
+                </div>
+                <p className={`text-sm ${selectedPlan === 'completo' ? 'text-blue-100' : 'text-gray-600'}`}>
+                  {plans.completo.description}
                 </p>
               </div>
-              <div>
-                <div className="text-3xl mb-2">2️⃣</div>
-                <h4 className="font-bold mb-2">Cuotas Automáticas</h4>
-                <p className="text-sm text-blue-200">
-                  2 cuotas adicionales de $475 cada una, procesadas automáticamente cada mes
-                </p>
-              </div>
-              <div>
-                <div className="text-3xl mb-2">3️⃣</div>
-                <h4 className="font-bold mb-2">Sin Complicaciones</h4>
-                <p className="text-sm text-blue-200">
-                  Recibes recordatorios antes de cada cobro. Puedes cancelar en cualquier momento
-                </p>
+
+              <ul className="space-y-2 mb-4">
+                {plans.completo.features.map((feature, index) => (
+                  <li key={index} className="flex items-center space-x-2">
+                    <FaCheckCircle className={`text-sm ${selectedPlan === 'completo' ? 'text-green-300' : 'text-green-500'}`} />
+                    <span className={`text-sm ${selectedPlan === 'completo' ? 'text-blue-100' : 'text-gray-700'}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="text-center">
+                <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
+                  selectedPlan === 'completo' 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-[#01174D] text-white'
+                }`}>
+                  {selectedPlan === 'completo' ? '✓ Seleccionado' : 'Seleccionar Plan'}
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Formulario de Pago - Más compacto */}
+          <div className="max-w-sm mx-auto">
+            <OnvoPaymentSubscription 
+              paymentType={selectedPlan}
+              productName="Certificación Internacional CIPLAD"
+            />
+          </div>
         </div>
 
-        {/* Métodos de pago aceptados */}
-        <div className="text-center mt-12">
-          <h3 className="text-xl font-bold mb-6">Métodos de Pago Aceptados</h3>
-          <div className="flex justify-center items-center space-x-8 flex-wrap gap-4 mb-4">
-            <div className="bg-white rounded-lg p-3 shadow-lg">
-              <span className="text-2xl">💳</span>
-              <div className="text-xs text-gray-600 mt-1">Tarjetas</div>
+        {/* Garantías - Más compacta */}
+        <div className="max-w-3xl mx-auto mt-6">
+          <div className="grid md:grid-cols-3 gap-3 text-center">
+            <div className="p-3">
+              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                <FaCheckCircle className="text-green-600 text-base" />
+              </div>
+              <h4 className="font-bold text-gray-900 mb-1 text-xs">Garantía 7 Días</h4>
+              <p className="text-gray-600 text-xs">
+                Si no estás satisfecho, te devolvemos el 100% de tu dinero
+              </p>
             </div>
-            <div className="bg-white rounded-lg p-3 shadow-lg">
-              <span className="text-2xl">📱</span>
-              <div className="text-xs text-gray-600 mt-1">SINPE Móvil</div>
+            
+            <div className="p-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-sm">
+                🔒
+              </div>
+              <h4 className="font-bold text-gray-900 mb-1 text-xs">Pago Seguro</h4>
+              <p className="text-gray-600 text-xs">
+                Encriptación SSL y certificación PCI para máxima seguridad
+              </p>
             </div>
-            <div className="bg-white rounded-lg p-3 shadow-lg">
-              <span className="text-2xl">🏦</span>
-              <div className="text-xs text-gray-600 mt-1">Transferencia</div>
-            </div>
-            <div className="bg-white rounded-lg p-3 shadow-lg">
-              <span className="text-2xl">🔐</span>
-              <div className="text-xs text-gray-600 mt-1">ONVO Pay</div>
+            
+            <div className="p-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2 text-sm">
+                ⚡
+              </div>
+              <h4 className="font-bold text-gray-900 mb-1 text-xs">Acceso Inmediato</h4>
+              <p className="text-gray-600 text-xs">
+                Comienza tu certificación tan pronto se confirme el pago
+              </p>
             </div>
           </div>
-          <p className="text-blue-200 text-sm">
-            🔒 Pagos 100% seguros y encriptados procesados por ONVO Pay
-          </p>
         </div>
       </div>
     </section>
   )
 }
+
+export default SimplePaymentSection
