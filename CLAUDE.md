@@ -173,6 +173,11 @@ npm run lint        # Run ESLint
 - For production, update ONVO keys to production values
 - API routes return 500 if `dynamic = 'force-dynamic'` is missing
 
+### Build Errors
+- **useSearchParams() Suspense**: Fixed with Suspense boundary in success page
+- **Next.js 15**: All components compatible with latest version
+- **Static Generation**: Success page properly handles URL parameters
+
 ### Payment Integration ✅ WORKING
 - **ONVO SDK:** Loads dynamically, handles both payment types seamlessly  
 - **Test Environment:** Fully configured with ONVO sandbox
@@ -194,3 +199,4 @@ npm run lint        # Run ESLint
 - ✅ **Hero Section**: Updated with professional background image and improved structure
 - ✅ **Payment Form**: Split into Personal Information and Payment Information sections
 - ✅ **Production Ready**: Configured for Vercel deployment at `ciplad.felade.com`
+- ✅ **Next.js 15 Compatibility**: Fixed Suspense boundary for useSearchParams in success page
