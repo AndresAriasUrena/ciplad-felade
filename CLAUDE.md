@@ -74,6 +74,8 @@ npm run lint        # Run ESLint
 - **Professional Layout**: Enhanced container widths and spacing
 - **Hero Background**: Custom background image with gradient overlay
 - **Payment Plans**: Visual selection between single payment and installments
+- **Direct Access**: `/#inscripciones` URL automatically scrolls to payment section
+- **Smooth Scrolling**: CTA buttons smoothly scroll to inscriptions section
 
 ### Styling System
 - **Tailwind Config:** Custom FELADE colors and utilities
@@ -200,3 +202,4 @@ npm run lint        # Run ESLint
 - ✅ **Payment Form**: Split into Personal Information and Payment Information sections
 - ✅ **Production Ready**: Configured for Vercel deployment at `ciplad.felade.com`
 - ✅ **Next.js 15 Compatibility**: Fixed Suspense boundary for useSearchParams in success page
+- ✅ **Direct Access**: Added support for `/#inscripciones` hash URL with automatic scroll to payment section

@@ -36,6 +36,24 @@ export default function CipladSalesPage() {
     return () => clearInterval(timer)
   }, [])
 
+  // Scroll automático a la sección de inscripciones si viene con hash
+  useEffect(() => {
+    // Verificar si hay hash en la URL
+    const hash = window.location.hash
+    if (hash === '#inscripciones') {
+      // Esperar un momento para que la página se cargue completamente
+      setTimeout(() => {
+        const inscripcionesSection = document.getElementById('inscripciones')
+        if (inscripcionesSection) {
+          inscripcionesSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          })
+        }
+      }, 500)
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header Minimalista */}
@@ -124,7 +142,15 @@ export default function CipladSalesPage() {
 
               {/* CTA Principal */}
               <div className="space-y-4">
-                <button className="w-full lg:w-auto bg-gradient-to-r from-yellow-500 to-yellow-600 text-white hover:text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl">
+                <button 
+                  onClick={() => {
+                    document.getElementById('inscripciones')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    })
+                  }}
+                  className="w-full lg:w-auto bg-gradient-to-r from-yellow-500 to-yellow-600 text-white hover:text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl"
+                >
                    Inscríbete Ahora - USD $1,225
                 </button>
                 <p className="text-sm text-blue-200">
@@ -582,7 +608,9 @@ export default function CipladSalesPage() {
         </div>
       </section> */}
 
-      <SimplePaymentSection />
+      <div id="inscripciones">
+        <SimplePaymentSection />
+      </div>
 
       {/* FAQ */}
       <section className="py-16 bg-gray-50">
@@ -614,7 +642,15 @@ export default function CipladSalesPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl">
+            <button 
+              onClick={() => {
+                document.getElementById('inscripciones')?.scrollIntoView({ 
+                  behavior: 'smooth',
+                  block: 'start'
+                })
+              }}
+              className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl"
+            >
               🚀 Inscríbete Ahora
             </button>
             <div className="text-center sm:text-left">
