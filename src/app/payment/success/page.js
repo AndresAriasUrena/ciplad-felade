@@ -1,13 +1,13 @@
 // src/app/payment/success/page.js
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaCheckCircle, FaDownload, FaCalendarAlt, FaEnvelope, FaWhatsapp } from 'react-icons/fa'
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams()
   const [paymentData, setPaymentData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -288,5 +288,26 @@ export default function PaymentSuccessPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+// Loading component para Suspense
+function LoadingPage() {
+  return (
+    <div className="h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#01174D] mx-auto mb-4"></div>
+        <p className="text-gray-600">Verificando tu pago...</p>
+      </div>
+    </div>
+  )
+}
+
+// Componente principal con Suspense
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<LoadingPage />}>
+      <PaymentSuccessContent />
+    </Suspense>
   )
 }
