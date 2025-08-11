@@ -59,6 +59,7 @@ npm run lint        # Run ESLint
 ### Component Structure
 ```
 /src/app/components/
+├── layout/               # Layout components (Header, Footer)
 ├── landing/              # Landing page sections (HeroSection, etc.)
 ├── payment/              # Payment components (OnvoPaymentSubscription - 2-column layout)
 ├── tracking/             # Analytics (MetaPixel)
@@ -66,6 +67,11 @@ npm run lint        # Run ESLint
 ├── whatsapp/            # WhatsApp page components
 └── SimplePaymentSection.js  # Main payment section with plan selection
 ```
+
+### Layout Components
+- **Header.js**: Complete navigation with FELADE branding and certification links
+- **Footer.js**: Comprehensive footer with company info, certifications, and regional presence
+- **Global Layout**: Updated RootLayout with Header/Footer integration
 
 ### UI/UX Features
 - **2-Column Payment Form**: Personal info (left) + Payment widget (right)
@@ -76,6 +82,9 @@ npm run lint        # Run ESLint
 - **Payment Plans**: Visual selection between single payment and installments
 - **Direct Access**: `/#inscripciones` URL automatically scrolls to payment section
 - **Smooth Scrolling**: CTA buttons smoothly scroll to inscriptions section
+- **Professional Header**: Complete navigation with dropdown menus and responsive mobile design
+- **Rich Footer**: Multi-column layout with certifications, contact info, social links, and regional presence
+- **Global Layout**: Consistent branding across all pages with sticky header and comprehensive footer
 
 ### Styling System
 - **Tailwind Config:** Custom FELADE colors and utilities
@@ -203,3 +212,6 @@ npm run lint        # Run ESLint
 - ✅ **Production Ready**: Configured for Vercel deployment at `ciplad.felade.com`
 - ✅ **Next.js 15 Compatibility**: Fixed Suspense boundary for useSearchParams in success page
 - ✅ **Direct Access**: Added support for `/#inscripciones` hash URL with automatic scroll to payment section
+- ✅ **Layout Components**: Added comprehensive Header and Footer components with FELADE branding
+- ✅ **Navigation**: Complete site navigation with certification links and responsive mobile menu
+- ✅ **Footer Enhancement**: Regional presence map, social links, contact info, and certification links

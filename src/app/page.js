@@ -676,57 +676,7 @@ export default function CipladSalesPage() {
         </div>
       </section>
 
-      {/* Footer Minimalista */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="h-8 w-auto relative mb-4">
-                <Image
-                  src="/images/logoblanco.png"
-                  alt="FELADE"
-                  width={120}
-                  height={32}
-                  className="object-contain h-full w-auto"
-                />
-              </div>
-              <p className="text-gray-400 text-sm">
-                Fundación para el Estudio del Lavado de Activos y Delitos
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-bold mb-4">Contacto</h3>
-              <div className="space-y-2 text-sm text-gray-400">
-                <div className="flex items-center space-x-2">
-                  <FaEnvelope />
-                  <span>info@felade.com</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaWhatsapp />
-                  <span>+506 1234-5678</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-bold mb-4">Legal</h3>
-              <div className="space-y-2 text-sm">
-                <Link href="/privacidad" className="text-gray-400 hover:text-white block">
-                  Política de Privacidad
-                </Link>
-                <Link href="/terminos" className="text-gray-400 hover:text-white block">
-                  Términos y Condiciones
-                </Link>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>© {new Date().getFullYear()} FELADE. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
+      
     </div>
   )
 }
