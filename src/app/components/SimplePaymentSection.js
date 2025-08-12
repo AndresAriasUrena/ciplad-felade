@@ -6,7 +6,7 @@ import OnvoPaymentSubscription from './payment/OnvoPaymentSubscription'
 import { FaCheckCircle } from 'react-icons/fa'
 
 const SimplePaymentSection = () => {
-  const [selectedPlan, setSelectedPlan] = useState('cuotas')
+  const [selectedPlan, setSelectedPlan] = useState('completo')
 
   const plans = {
     cuotas: {
@@ -20,7 +20,7 @@ const SimplePaymentSection = () => {
         'Sin compromisos adicionales'
       ],
       savings: false,
-      popular: true
+      popular: false
     },
     completo: {
       name: 'Pago Completo',
@@ -34,7 +34,7 @@ const SimplePaymentSection = () => {
         'Certificación completa'
       ],
       savings: '$200 USD de ahorro',
-      popular: false
+      popular: true
     }
   }
 
@@ -52,6 +52,67 @@ const SimplePaymentSection = () => {
 
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-4 mb-6">
+            {/* Plan Completo */}
+            <div 
+              className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-300 ${
+                selectedPlan === 'completo' 
+                  ? 'bg-gradient-to-br from-[#01174D] to-[#1e3a8a] text-white shadow-xl transform scale-105' 
+                  : 'bg-white hover:shadow-lg border-2 border-gray-200 hover:border-[#01174D]'
+              }`}
+              onClick={() => setSelectedPlan('completo')}
+            >
+              {plans.completo.popular && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-1 rounded-full text-sm font-bold">
+                    🔥 Más Popular
+                  </span>
+                </div>
+              )}
+              {plans.completo.savings && (
+                <div className="absolute -top-3 right-4">
+                  <span className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                    💰 {plans.completo.savings}
+                  </span>
+                </div>
+              )}
+              
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-bold mb-2">{plans.completo.name}</h3>
+                <div className="mb-3">
+                  <div className="flex items-center justify-center space-x-2">
+                    <span className={`text-base line-through ${selectedPlan === 'completo' ? 'text-blue-200' : 'text-gray-400'}`}>
+                      {plans.completo.originalPrice}
+                    </span>
+                    <span className="text-3xl font-bold">{plans.completo.price}</span>
+                  </div>
+                </div>
+                <p className={`text-sm ${selectedPlan === 'completo' ? 'text-blue-100' : 'text-gray-600'}`}>
+                  {plans.completo.description}
+                </p>
+              </div>
+
+              <ul className="space-y-2 mb-4">
+                {plans.completo.features.map((feature, index) => (
+                  <li key={index} className="flex items-center space-x-2">
+                    <FaCheckCircle className={`text-sm ${selectedPlan === 'completo' ? 'text-green-300' : 'text-green-500'}`} />
+                    <span className={`text-sm ${selectedPlan === 'completo' ? 'text-blue-100' : 'text-gray-700'}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="text-center">
+                <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
+                  selectedPlan === 'completo' 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-[#01174D] text-white'
+                }`}>
+                  {selectedPlan === 'completo' ? '✓ Seleccionado' : 'Seleccionar Plan'}
+                </div>
+              </div>
+            </div>
+
             {/* Plan de Cuotas */}
             <div 
               className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-300 ${
@@ -98,60 +159,6 @@ const SimplePaymentSection = () => {
                     : 'bg-[#01174D] text-white'
                 }`}>
                   {selectedPlan === 'cuotas' ? '✓ Seleccionado' : 'Seleccionar Plan'}
-                </div>
-              </div>
-            </div>
-
-            {/* Plan Completo */}
-            <div 
-              className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-300 ${
-                selectedPlan === 'completo' 
-                  ? 'bg-gradient-to-br from-[#01174D] to-[#1e3a8a] text-white shadow-xl transform scale-105' 
-                  : 'bg-white hover:shadow-lg border-2 border-gray-200 hover:border-[#01174D]'
-              }`}
-              onClick={() => setSelectedPlan('completo')}
-            >
-              {plans.completo.savings && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-orange-400 to-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">
-                    💰 {plans.completo.savings}
-                  </span>
-                </div>
-              )}
-              
-              <div className="text-center mb-4">
-                <h3 className="text-xl font-bold mb-2">{plans.completo.name}</h3>
-                <div className="mb-3">
-                  <div className="flex items-center justify-center space-x-2">
-                    <span className={`text-base line-through ${selectedPlan === 'completo' ? 'text-blue-200' : 'text-gray-400'}`}>
-                      {plans.completo.originalPrice}
-                    </span>
-                    <span className="text-3xl font-bold">{plans.completo.price}</span>
-                  </div>
-                </div>
-                <p className={`text-sm ${selectedPlan === 'completo' ? 'text-blue-100' : 'text-gray-600'}`}>
-                  {plans.completo.description}
-                </p>
-              </div>
-
-              <ul className="space-y-2 mb-4">
-                {plans.completo.features.map((feature, index) => (
-                  <li key={index} className="flex items-center space-x-2">
-                    <FaCheckCircle className={`text-sm ${selectedPlan === 'completo' ? 'text-green-300' : 'text-green-500'}`} />
-                    <span className={`text-sm ${selectedPlan === 'completo' ? 'text-blue-100' : 'text-gray-700'}`}>
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="text-center">
-                <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
-                  selectedPlan === 'completo' 
-                    ? 'bg-white/20 text-white' 
-                    : 'bg-[#01174D] text-white'
-                }`}>
-                  {selectedPlan === 'completo' ? '✓ Seleccionado' : 'Seleccionar Plan'}
                 </div>
               </div>
             </div>

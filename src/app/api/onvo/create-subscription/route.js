@@ -59,10 +59,16 @@ export async function POST(request) {
       ? process.env.ONVO_PRODUCT_ID_3_CUOTAS 
       : process.env.ONVO_PRODUCT_ID_FULLPAY
 
+    // 🔧 AGREGADO: Validación de Price IDs (lo que realmente necesitamos)
+    const priceIdCuotas = process.env.ONVO_PRICE_ID_CUOTAS
+    const priceIdFullpay = process.env.ONVO_PRICE_ID_FULLPAY
+
     console.log('🔑 Configuración ONVO:', {
       paymentType,
       productId: productId ? 'Configurado' : 'NO CONFIGURADO',
-      secretKey: secretKey ? 'Configurado' : 'NO CONFIGURADO'
+      secretKey: secretKey ? 'Configurado' : 'NO CONFIGURADO',
+      priceIdCuotas: priceIdCuotas ? 'Configurado' : 'NO CONFIGURADO',
+      priceIdFullpay: priceIdFullpay ? 'Configurado' : 'NO CONFIGURADO'
     })
 
     if (!secretKey || !productId) {
@@ -73,6 +79,23 @@ export async function POST(request) {
       })
       return NextResponse.json(
         { error: 'Configuración de pago incompleta' },
+        { status: 500 }
+      )
+    }
+
+    // 🔧 AGREGADO: Validación específica de Price IDs
+    if (paymentType === 'cuotas' && !priceIdCuotas) {
+      console.error('❌ ONVO_PRICE_ID_CUOTAS no configurado para cuotas')
+      return NextResponse.json(
+        { error: 'Configuración de cuotas incompleta - contacte soporte' },
+        { status: 500 }
+      )
+    }
+
+    if (paymentType !== 'cuotas' && !priceIdFullpay) {
+      console.error('❌ ONVO_PRICE_ID_FULLPAY no configurado para pago único')
+      return NextResponse.json(
+        { error: 'Configuración de pago único incompleta - contacte soporte' },
         { status: 500 }
       )
     }
@@ -148,6 +171,7 @@ export async function POST(request) {
       console.log('🔄 Intentando endpoint alternativo /subscriptions...')
       
       try {
+        // 🔧 CORREGIDO: Usar priceId en lugar de productId
         const altSubscriptionResponse = await fetch('https://api.onvopay.com/v1/subscriptions', {
           method: 'POST',
           headers: {
@@ -156,17 +180,12 @@ export async function POST(request) {
           },
           body: JSON.stringify({
             customerId: customer.id,
+            paymentBehavior: "allow_incomplete", // 🔧 AGREGADO
             items: [{
-              productId: productId,
+              priceId: paymentType === 'cuotas' ? priceIdCuotas : priceIdFullpay, // 🔧 CORREGIDO: priceId
               quantity: 1
-            }],
-            billing_max_cycles: paymentType === 'cuotas' ? 3 : 1,
-            metadata: {
-              program: 'CIPLAD',
-              payment_type: paymentType,
-              customer_name: name,
-              customer_phone: phone
-            }
+            }]
+            // 🔧 REMOVIDO: billing_max_cycles y metadata (no necesarios para creación básica)
           })
         })
 
@@ -201,12 +220,12 @@ export async function POST(request) {
       console.log('🔄 Creando suscripción para 3 cuotas...')
       
       try {
-        // Crear suscripción usando el formato correcto de ONVO
+        // 🔧 CORREGIDO: Crear suscripción usando el formato correcto de ONVO
         const subscriptionData = {
           customerId: customer.id,
           paymentBehavior: "allow_incomplete",
           items: [{
-            priceId: process.env.ONVO_PRICE_ID_CUOTAS || "cmdrdhr2v0jrcl52en88r5unb",
+            priceId: priceIdCuotas, // 🔧 CORREGIDO: Sin fallback hardcodeado
             quantity: 1
           }]
         }
@@ -243,9 +262,21 @@ export async function POST(request) {
           })
         } else {
           console.error('❌ Error creando suscripción:', subscriptionResult)
+          
+          // 🔧 AGREGADO: Intentar método alternativo si falla el principal
+          const alternativeResult = await tryAlternativeSubscription()
+          if (alternativeResult) {
+            return alternativeResult
+          }
         }
       } catch (error) {
         console.error('❌ Error en suscripción:', error.message)
+        
+        // 🔧 AGREGADO: Intentar método alternativo en caso de excepción
+        const alternativeResult = await tryAlternativeSubscription()
+        if (alternativeResult) {
+          return alternativeResult
+        }
       }
     } else {
       console.log('🔄 Creando paymentIntent para pago único...')
@@ -255,7 +286,8 @@ export async function POST(request) {
         const paymentIntentData = {
           currency: 'USD',
           amount: 122500, // $1,225 en centavos
-          description: 'Certificación CIPLAD - Pago Completo $1,225 USD'
+          description: 'Certificación CIPLAD - Pago Completo $1,225 USD',
+          customerId: customer.id // 🔧 AGREGADO: Asociar al cliente
         }
 
         console.log('📋 Datos de PaymentIntent:', paymentIntentData)
@@ -295,7 +327,6 @@ export async function POST(request) {
         console.error('❌ Error en PaymentIntent:', error.message)
       }
     }
-
 
     // Fallback: solo devolver info del cliente
     console.log('✅ Cliente listo para checkout')
