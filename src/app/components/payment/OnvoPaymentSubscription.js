@@ -192,6 +192,15 @@ const OnvoPaymentSubscription = ({ paymentType = 'cuotas', productName = 'Certif
 
       function initializeOnvoPayment() {
         console.log('🔄 Inicializando widget de ONVO...')
+        
+        // Validar que tenemos publicKey
+        if (!publicKey) {
+          console.error('❌ No se pudo obtener publicKey del servidor')
+          setError('Error: No se pudo configurar el sistema de pagos')
+          setIsLoading(false)
+          return
+        }
+        
         console.log('🔧 Configuración ONVO:', {
           paymentType: paymentType === 'cuotas' ? 'subscription' : 'one_time',
           customerId,

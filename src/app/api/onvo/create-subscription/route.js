@@ -261,13 +261,24 @@ export async function POST(request) {
             message: 'Suscripción creada para 3 cuotas de $475'
           })
         } else {
-          console.error('❌ Error creando suscripción:', subscriptionResult)
+          console.error('❌ Error creando suscripción principal:')
+          console.error('- Status:', subscriptionResponse.status)
+          console.error('- Status Text:', subscriptionResponse.statusText)
+          console.error('- Body:', JSON.stringify(subscriptionResult, null, 2))
           
           // 🔧 AGREGADO: Intentar método alternativo si falla el principal
           const alternativeResult = await tryAlternativeSubscription()
           if (alternativeResult) {
             return alternativeResult
           }
+          
+          // Si todo falla, devolver el error específico
+          return NextResponse.json({
+            success: false,
+            error: 'Error creando suscripción',
+            details: subscriptionResult,
+            onvoStatus: subscriptionResponse.status
+          }, { status: 400 })
         }
       } catch (error) {
         console.error('❌ Error en suscripción:', error.message)
