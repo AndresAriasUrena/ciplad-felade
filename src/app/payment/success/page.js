@@ -202,7 +202,7 @@ function PaymentSuccessContent() {
                       Conecta con compañeros
                     </p>
                     <a 
-                      href="https://wa.me/+50612345678" 
+                      href="https://wa.me/+50640001400" 
                       className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs space-x-1"
                     >
                       <FaWhatsapp className="text-xs" />
@@ -251,10 +251,10 @@ function PaymentSuccessContent() {
                   </a>
                   
                   <a 
-                    href="https://wa.me/+50612345678"
+                    href="https://wa.me/+50640001400"
                     className="block bg-green-500 hover:bg-green-600 px-3 py-2 rounded-lg transition-colors text-sm"
                   >
-                    📱 +506 1234-5678
+                    📱 +506 4000-1400
                   </a>
                 </div>
               </div>

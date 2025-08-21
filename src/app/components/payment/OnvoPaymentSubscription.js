@@ -86,6 +86,48 @@ const OnvoPaymentSubscription = ({ paymentType = 'cuotas', productName = 'Certif
     return pricing[paymentType] || pricing.cuotas
   }
 
+  const formatPhoneNumber = (input) => {
+    // Mantener solo números y el signo +
+    let cleaned = input.replace(/[^\d+]/g, '')
+    
+    // Si no empieza con +, agregarlo
+    if (!cleaned.startsWith('+')) {
+      cleaned = '+' + cleaned
+    }
+    
+    // Evitar múltiples signos +
+    cleaned = '+' + cleaned.substring(1).replace(/\+/g, '')
+    
+    return cleaned
+  }
+
+  const isValidInternationalPhone = (phone) => {
+    // Remover espacios y guiones para validar
+    const cleaned = phone.replace(/[^\d+]/g, '')
+    
+    // Debe empezar con + seguido de al menos 7 dígitos y máximo 15
+    const phoneRegex = /^\+\d{7,15}$/
+    return phoneRegex.test(cleaned)
+  }
+
+  const getCountryHint = (phone) => {
+    const cleaned = phone.replace(/[^\d]/g, '')
+    
+    if (cleaned.startsWith('506')) return 'Costa Rica'
+    if (cleaned.startsWith('1')) return 'Estados Unidos/Canadá'
+    if (cleaned.startsWith('52')) return 'México'
+    if (cleaned.startsWith('57')) return 'Colombia'
+    if (cleaned.startsWith('51')) return 'Perú'
+    if (cleaned.startsWith('507')) return 'Panamá'
+    if (cleaned.startsWith('503')) return 'El Salvador'
+    if (cleaned.startsWith('502')) return 'Guatemala'
+    if (cleaned.startsWith('504')) return 'Honduras'
+    if (cleaned.startsWith('505')) return 'Nicaragua'
+    if (cleaned.startsWith('34')) return 'España'
+    
+    return ''
+  }
+
   const validateForm = () => {
     const requiredFields = ['fullName', 'email', 'phone']
     
@@ -99,6 +141,11 @@ const OnvoPaymentSubscription = ({ paymentType = 'cuotas', productName = 'Certif
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(paymentForm.email)) {
       throw new Error('Email inválido')
+    }
+
+    // Validar teléfono internacional
+    if (!isValidInternationalPhone(paymentForm.phone)) {
+      throw new Error('Número de teléfono inválido. Use formato internacional: +506 8888-8888')
     }
 
     return true
@@ -351,17 +398,41 @@ const OnvoPaymentSubscription = ({ paymentType = 'cuotas', productName = 'Certif
             {/* Teléfono */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Teléfono *
+                Teléfono * <span className="text-xs text-gray-500">(Con código de país)</span>
               </label>
               <input
                 type="tel"
                 value={paymentForm.phone}
-                onChange={(e) => setPaymentForm(prev => ({...prev, phone: e.target.value}))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01174D] focus:border-transparent transition-all"
-                placeholder="+506 8888-8888"
+                onChange={(e) => {
+                  const formatted = formatPhoneNumber(e.target.value)
+                  setPaymentForm(prev => ({...prev, phone: formatted}))
+                }}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:border-transparent transition-all ${
+                  paymentForm.phone && !isValidInternationalPhone(paymentForm.phone)
+                    ? 'border-red-300 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-[#01174D]'
+                }`}
+                placeholder="+506 88888888"
                 required
                 disabled={isLoading}
+                maxLength={17}
               />
+              {paymentForm.phone && !isValidInternationalPhone(paymentForm.phone) && (
+                <p className="text-red-500 text-xs mt-1">
+                  Formato: +código_país número (ej: +506 88888888, +1 5551234567)
+                </p>
+              )}
+              {paymentForm.phone && isValidInternationalPhone(paymentForm.phone) && (
+                <p className="text-green-500 text-xs mt-1 flex items-center">
+                  <FaCheckCircle className="mr-1" /> 
+                  Válido {getCountryHint(paymentForm.phone) && `(${getCountryHint(paymentForm.phone)})`}
+                </p>
+              )}
+              {paymentForm.phone && paymentForm.phone.length > 1 && !paymentForm.phone.startsWith('+') && (
+                <p className="text-blue-500 text-xs mt-1">
+                  💡 Agregue el código de país (ej: +506 para Costa Rica, +1 para USA)
+                </p>
+              )}
             </div>
 
             {/* Error message */}

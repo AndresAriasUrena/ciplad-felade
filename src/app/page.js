@@ -10,27 +10,38 @@ import SimplePaymentSection from './components/SimplePaymentSection'
 
 export default function CipladSalesPage() {
   const [timeLeft, setTimeLeft] = useState({
-    days: 15,
-    hours: 8,
-    minutes: 45,
-    seconds: 30
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
   })
 
-  // Contador regresivo
+  // Contador regresivo basado en fecha real
   useEffect(() => {
+    const calculateTimeLeft = () => {
+      // Fecha objetivo: 9 de septiembre de 2025 a las 00:00 (medianoche)
+      const targetDate = new Date('2025-09-09T00:00:00-06:00') // Zona horaria Costa Rica (UTC-6)
+      const now = new Date()
+      const difference = targetDate.getTime() - now.getTime()
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24)
+        const minutes = Math.floor((difference / 1000 / 60) % 60)
+        const seconds = Math.floor((difference / 1000) % 60)
+
+        return { days, hours, minutes, seconds }
+      } else {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+      }
+    }
+
+    // Calcular inmediatamente
+    setTimeLeft(calculateTimeLeft())
+
+    // Actualizar cada segundo
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 }
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: prev.minutes - 1, seconds: 59 }
-        } else if (prev.hours > 0) {
-          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 }
-        } else if (prev.days > 0) {
-          return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 }
-        }
-        return prev
-      })
+      setTimeLeft(calculateTimeLeft())
     }, 1000)
 
     return () => clearInterval(timer)
@@ -85,7 +96,7 @@ export default function CipladSalesPage() {
             <div className="flex items-center space-x-4">
               <span className="text-white text-sm">¿Necesitas ayuda?</span>
               <a 
-                href="https://wa.me/+50612345678" 
+                href="https://wa.me/+50640001400" 
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
               >
                 <FaWhatsapp />
@@ -129,14 +140,22 @@ export default function CipladSalesPage() {
 
               {/* Contador de urgencia */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
-                <h3 className="text-lg font-semibold mb-4 text-center">⏰ Próximo inicio en:</h3>
+                <h3 className="text-lg font-semibold mb-4 text-center">Próximo inicio 9 de Setiembre:</h3>
                 <div className="grid grid-cols-4 gap-4 text-center">
-                  {Object.entries(timeLeft).map(([unit, value]) => (
-                    <div key={unit} className="bg-white/20 rounded-lg p-3">
-                      <div className="text-2xl font-bold">{value.toString().padStart(2, '0')}</div>
-                      <div className="text-sm opacity-80 capitalize">{unit}</div>
-                    </div>
-                  ))}
+                  {Object.entries(timeLeft).map(([unit, value]) => {
+                    const labels = {
+                      days: 'Días',
+                      hours: 'Horas', 
+                      minutes: 'Minutos',
+                      seconds: 'Segundos'
+                    }
+                    return (
+                      <div key={unit} className="bg-white/20 rounded-lg p-3">
+                        <div className="text-2xl font-bold">{value.toString().padStart(2, '0')}</div>
+                        <div className="text-sm opacity-80">{labels[unit]}</div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
 
@@ -376,13 +395,13 @@ export default function CipladSalesPage() {
             {[
               {
                 name: "María González",
-                role: "Oficial de Cumplimiento - Banco Nacional",
+                role: "Oficial de Cumplimiento",
                 country: "🇨🇷 Costa Rica",
                 testimonial: "CIPLAD me dio las herramientas necesarias para implementar un programa AML efectivo en mi institución. El conocimiento adquirido es invaluable."
               },
               {
                 name: "Carlos Rodríguez",
-                role: "Gerente de Riesgo - Grupo Financiero",
+                role: "Gerente de Riesgo",
                 country: "🇲🇽 México", 
                 testimonial: "La certificación CIPLAD es reconocida internacionalmente. Me abrió puertas en el mercado financiero regional."
               },
@@ -638,7 +657,7 @@ export default function CipladSalesPage() {
           </h2>
           <p className="text-xl text-blue-200 mb-8 max-w-3xl mx-auto">
             Únete a más de 17,000 profesionales que han potenciado sus carreras con la certificación CIPLAD. 
-            El próximo grupo inicia en <strong>15 días</strong>.
+            El próximo grupo inicia el <strong>9 de septiembre</strong>.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">

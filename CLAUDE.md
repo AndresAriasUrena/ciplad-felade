@@ -215,3 +215,17 @@ npm run lint        # Run ESLint
 - ✅ **Layout Components**: Added comprehensive Header and Footer components with FELADE branding
 - ✅ **Navigation**: Complete site navigation with certification links and responsive mobile menu
 - ✅ **Footer Enhancement**: Regional presence map, social links, contact info, and certification links
+
+### Latest Updates (Aug 21, 2025)
+- ✅ **Phone Validation Enhanced**: Upgraded phone field to support international formats with auto-detection
+- ✅ **Real-time Country Detection**: Phone field now recognizes country codes and displays country names
+- ✅ **ONVO Compatible Format**: Phone validation ensures compatibility with ONVO payment gateway
+- ✅ **Footer Redesign**: Updated to match institutional design with 4-column layout
+- ✅ **Contact Information**: Added complete addresses for USA (Miami) and Costa Rica offices
+- ✅ **Newsletter Subscription**: Added email subscription form to footer
+- ✅ **Regional Flags**: Reordered country flags - USA, Mexico, Dom. Rep., Central America, South America
+- ✅ **Date Updates**: Program start date updated to September 9, 2025
+- ✅ **Dynamic Countdown**: Implemented real-time countdown timer based on actual date
+- ✅ **Spanish Localization**: Countdown labels now in Spanish (Días, Horas, Minutos, Segundos)
+- ✅ **WhatsApp Update**: All WhatsApp links updated to +50640001400
+- ✅ **Footer Enhancement**: Regional presence map, social links, contact info, and certification links

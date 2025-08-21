@@ -16,7 +16,7 @@ const WhatsAppPage = () => {
   });
   
   // Número de WhatsApp para contacto (reemplazar con el número real)
-  const whatsappNumber = "+5491112345678";
+  const whatsappNumber = "+50640001400";
   
   // Mensaje predefinido para WhatsApp
   const whatsappMessage = encodeURIComponent(
